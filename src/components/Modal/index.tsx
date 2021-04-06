@@ -1,8 +1,17 @@
 import { Component } from 'react';
 import ReactModal from 'react-modal';
 
-class Modal extends Component {
-  constructor(props) {
+type Props = {
+  isOpen: boolean;
+  setIsOpen: () => void;
+}
+
+type State = {
+  modalStatus: boolean;
+}
+
+class Modal extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
 
     const { isOpen } = this.props;
@@ -11,7 +20,7 @@ class Modal extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     const { isOpen } = this.props;
 
     if (prevProps.isOpen !== isOpen) {

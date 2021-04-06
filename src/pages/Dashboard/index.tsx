@@ -1,5 +1,6 @@
 import { Component } from 'react';
 
+import { FoodProps } from '../../types'
 import Header from '../../components/Header';
 import api from '../../services/api';
 import Food from '../../components/Food';
@@ -7,12 +8,26 @@ import ModalAddFood from '../../components/ModalAddFood';
 import ModalEditFood from '../../components/ModalEditFood';
 import { FoodsContainer } from './styles';
 
-class Dashboard extends Component {
-  constructor(props) {
+interface Props {
+  foods: FoodProps[];
+  editingFood: FoodProps;
+  modalOpen: boolean;
+  editModalOpen: boolean;
+}
+
+interface State {
+  foods: FoodProps[];
+  editingFood?: FoodProps;
+  modalOpen: boolean;
+  editModalOpen: boolean;
+}
+
+
+class Dashboard extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       foods: [],
-      editingFood: {},
       modalOpen: false,
       editModalOpen: false,
     }
@@ -24,7 +39,7 @@ class Dashboard extends Component {
     this.setState({ foods: response.data });
   }
 
-  handleAddFood = async food => {
+  handleAddFood = async (food: FoodProps) => {
     const { foods } = this.state;
 
     try {
@@ -39,12 +54,12 @@ class Dashboard extends Component {
     }
   }
 
-  handleUpdateFood = async food => {
+  handleUpdateFood = async (food: FoodProps) => {
     const { foods, editingFood } = this.state;
 
     try {
       const foodUpdated = await api.put(
-        `/foods/${editingFood.id}`,
+        `/foods/${editingFood?.id}`,
         { ...editingFood, ...food },
       );
 
@@ -58,7 +73,7 @@ class Dashboard extends Component {
     }
   }
 
-  handleDeleteFood = async id => {
+  handleDeleteFood = async (id: number) => {
     const { foods } = this.state;
 
     await api.delete(`/foods/${id}`);
@@ -80,7 +95,7 @@ class Dashboard extends Component {
     this.setState({ editModalOpen: !editModalOpen });
   }
 
-  handleEditFood = food => {
+  handleEditFood = (food: FoodProps) => {
     this.setState({ editingFood: food, editModalOpen: true });
   }
 

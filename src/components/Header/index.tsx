@@ -4,14 +4,20 @@ import { FiPlusSquare } from 'react-icons/fi';
 import { Container } from './styles';
 import Logo from '../../assets/logo.svg';
 
-class Header extends Component {
+type Props = {
+  openModal: () => void;
+}
+
+class Header extends Component<Props> {
+
   render() {
+    
     const { openModal } = this.props;
 
     return (
       <Container>
         <header>
-          <img src={Logo} alt="GoRestaurant" />
+          <img src={Logo} />
           <nav>
             <div>
               <button
